@@ -9,6 +9,7 @@
 //includes
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <time.h>
 #include <cstdlib>
 
@@ -16,7 +17,7 @@
 #include "ravine.hpp"
 #include "cave.hpp"
 #include "tower.hpp"
-//#include "player.hpp"
+#include "treehouse.hpp"
 #include "object.hpp"
 
 //usings
@@ -26,6 +27,7 @@ using std::cin;
 using std::srand;
 using std::rand;
 using std::string;
+using std::stringstream;
 
 //function prototypes
 void displayMenu();				//displays user options to console
@@ -38,8 +40,10 @@ void addObject(Object*);		//adds an object to backpack
 
 int main()
 {
+	srand((unsigned)time(NULL));		//initialize random number generator
 	bool done = false;					//for menu
-	bool death = false;
+	bool death = false;					//toggle player death
+	bool happyLeprechan = false;		//toggle leprechan mood
 	int move = 0;						//for moves
 	Space* location = NULL;				//current location
 	int turnsRemaining = 20;			//counter for number of turns
@@ -55,36 +59,38 @@ int main()
 
 	//populate the world
 	//create the spaces
-	Space* ravine = new Ravine("Mossy ravine", "A narrow ravine with steep moss covered sides, a stream, and gently moving dense mist...", "You are in a ravine.", "You see a stream, a dark wet cave to your left that the stream comes out of, another cave behind you, and two stone stairs in front of you, both leading up into the mist.", "You see a stream, a dark wet cave to your left that the stream comes out of, another cave behind you, and two stone stairs in front of you, both leading up into the mist.");
-	Space* cave1 = new Cave("Wet Cave", "A pitch black, very wet cave with a stream flowing towards the entrance.", "You are in a very wet & dark cave.", "All you can see is dim light in the direction of the cave mouth. Some light would let you see more.", "You can see the dim light in the direction of the cave mouth, a giant spider further back in the cave, and the following items:");
-	Space* cave2 = new Cave("Dry Cave", "A pitch black cave", "You are in a dark cave.", "All you can see is dim light in the direction of the cave mouth. Some light would let you see more.", "You can see the dim light in the direction of the cave mouth, a giant spider further back in the cave, and the following items:");
-	Space* tower1 = new Tower("Stone Tower", "A circular room with open windows at the top of a high stone tower.", "You are now at the top of a stone tower.", "You can see stairs going down, a rope bridge leading into the mist, and the following items:", "You can see stairs going down, a rope bridge leading into the mist, and the following items:");
-	Space* tower2 = new Tower("Tree House", "A rustic, weathered tree house surrounded by mist.", "You are now in a tree house.", "You can see stairs going down, a rope bridge leading into the mist, and the following items:", "You can see stairs going down, a rope bridge leading into the mist, and the following items:");
+	Space* ravine = new Ravine("Mossy ravine", "A narrow ravine with steep moss covered sides, a stream, and gently moving dense mist...", "You are in a ravine.", "You see a gently flowing stream, a dark wet cave to your left \nthat the stream comes out of, another cave behind you, \nand two stone stairs in front of you, both leading up into the mist. \nAt the edge of the stream there is a clear orb atop a marble obelisk.", "");
+	Space* cave1 = new Cave("Wet Cave", "A pitch black, very wet cave with a stream flowing towards the entrance.", "You are in a very wet & dark cave.", "All you can see is dim light in the direction of the cave mouth and \na black orb atop a marble obelisk. \nSome light would reveal more.", "You can see the dim light in the direction of the cave mouth, \na giant spider further back in the cave, \na black orb atop a marble obelisk and the following items:");
+	Space* cave2 = new Cave("Dry Cave", "A pitch black cave", "You are in a dark cave.", "All you can see is dim light in the direction of the cave mouth and \na black orb atop a marble obelisk. \nSome light would reveal more.", "You can see the dim light in the direction of the cave mouth, \na giant spider further back in the cave, \na black orb atop a marble obelisk and the following items:");
+	Space* tower1 = new Tower("Stone Tower", "A circular room with open windows at the top of a high stone tower.", "You are at the top of a stone tower.", "You are in a dim circular room with windows. It is very misty outside. \nYou can see stairs going down, a white orb atop a marble obelisk, \na rope bridge leading into the mist, and the following items:", "");
+	Space* treehouse1 = new Treehouse("Tree House", "A rustic, weathered tree house surrounded by mist.", "You are in a tree house.", "You can see stairs going down, a bright green orb atop a wooden post, \na rope bridge leading into the mist, and the following items:", "");
 
 	//set pointers of the spaces
-	ravine->setPointers(cave1, cave2, tower1, tower2);
+	ravine->setPointers(cave1, cave2, tower1, treehouse1);
 	cave1->setPointers(ravine, NULL, NULL, NULL);
 	cave2->setPointers(ravine, NULL, NULL, NULL);
-	tower1->setPointers(ravine, tower2, NULL, NULL);
-	tower2->setPointers(ravine, tower1, NULL, NULL);
+	tower1->setPointers(ravine, treehouse1, NULL, NULL);
+	treehouse1->setPointers(ravine, tower1, NULL, NULL);
 
 	//create objects
 	Object* water1 = new Object(1, "Sealed water bottle");
 	Object* water2 = new Object(1, "Sealed water bottle");
 	Object* water3 = new Object(1, "Sealed water bottle");
 	Object* water4 = new Object(2, "1/2 empty water bottle");
-	Object* orb = new Object(3, "Dark blue glass orb.");
+	Object* water5 = new Object(2, "1/2 empty water bottle");
+	Object* orb = new Object(3, "Irish green glass orb.");
 	Object* knife = new Object(4, "Hunting knife");
 	Object* flashlight = new Object(5, "Flashlight");
 
 	//place objects
-	cave1->addObject(water1);
-	cave1->addObject(knife);
-	cave2->addObject(water2);
-	cave2->addObject(water4);
-	tower1->addObject(water3);
-	tower1->addObject(flashlight);
-	tower2->addObject(orb);
+	cave1->addObject(water1);	 //good water to wet cave
+	cave1->addObject(knife);	 //knife to wet cave
+	cave1->addObject(water5);	 //bad water to wet cave
+	cave2->addObject(water2);	 //good water to dry cave
+	cave2->addObject(orb);		 //green orb to dry cave
+	cave2->addObject(water4);	 //bad water to dry cave
+	tower1->addObject(flashlight); //flashlight to tower
+	treehouse1->addObject(water3);	 //good water to treehouse
 
 	//for testing
 	//test objects in space arrays
@@ -96,8 +102,8 @@ int main()
 	//cave2->displayObjects();
 	//cout << "Objects in tower1: " << endl;
 	//tower1->displayObjects();
-	//cout << "Objects in tower2: " << endl;
-	//tower2->displayObjects();
+	//cout << "Objects in treehouse1: " << endl;
+	//treehouse1->displayObjects();
 
 	//set start location
 	location = ravine;
@@ -111,39 +117,56 @@ int main()
 	//cout << endl;
 	//cout << tower1->getName() << endl << tower1->getDescription() << endl << tower1->getEntryMessage() << endl << tower1->getLook1() << endl << tower1->getLook2() << endl;
 	//cout << endl;
-	//cout << tower2->getName() << endl << tower2->getDescription() << endl << tower2->getEntryMessage() << endl << tower2->getLook1() << endl << tower2->getLook2() << endl;
+	//cout << treehouse1->getName() << endl << treehouse1->getDescription() << endl << treehouse1->getEntryMessage() << endl << treehouse1->getLook1() << endl << treehouse1->getLook2() << endl;
 	//cout << endl;
 
 	//display instructions
-	cout << "You will have 20 moves to complete this game. " << endl;
+	cout << endl;
+	cout << endl;
+	cout << "****************************************" << endl;
+	cout << "Welcome to make the leprechan happy game" << endl;
+	cout << endl;
+	cout << "You will have 20 moves to try to find and please the leprechan. " << endl;
 	cout << "You current hydration level is 5. You loose one hydration level" << endl;
 	cout << "every turn. Drinking safe water adds 5 to your hydration level." << endl;
 	cout << "If your hydration level reaches zero you die." << endl;
-	cout << "Dangerous creatures exist in this realm..." << endl;
+	cout << "If the leprechan doesn't laugh the world ends..." << endl;
+	cout << "so please save the world!" << endl;
+	cout << "FYI, dangerous things exist in this realm..." << endl;
 	cout << "Good luck..." << endl;
 
 	while (done != true)
 	{
+		//death checks
 		if (turnsRemaining < 1)
 		{
-			cout << "You have died from exhaustion." << endl;
 			done = true;
 			death = true;
 		}
 		else if (hydration < 1)
 		{
-			cout << "You have died from dehydration." << endl;
 			done = true;
 			death = true;
 		}
 		else cout << endl << "You have " << turnsRemaining << " turns left and your hydration level is " << hydration << "." << endl;
-		if (hydration < 2) cout << "You are dangerously close to dying from dehydration..." << endl;
+		cout << endl;
+		if (hydration < 3 && hydration > 0) cout << "You are dangerously close to dying from dehydration..." << endl;
+		cout << endl;
 		if (!death)
 		{
+			cout << "Press enter to continue..." << endl;
+			cin.clear();
+			cin.ignore(256, '\n');
+			cin.get();
 			displayMenu();
 			int menuChoice = 0;			//for menu/user inputs
 			menuChoice = getInput();
 			switch (menuChoice) {
+			case 0:		//exit option
+			{
+				done = true;
+				break;
+			}
 			case 1:		//look
 			{
 				if ((location == cave1 || location == cave2) && flashlightOn)
@@ -157,7 +180,7 @@ int main()
 				}
 				else
 				{
-					//display locations views
+					//display location view
 					cout << endl << location->getLook1() << endl << endl;
 					//display objects present
 					location->displayObjects();
@@ -167,56 +190,64 @@ int main()
 			case 2:		//move
 			{
 				move = location->move();
-				switch (move) {
+				switch (move)
+				{
 				case 1:
+					//if (move == 1)
 				{
 					location = location->getPointer(1);
 					cout << endl << location->getEntryMessage() << endl;
 					turnsRemaining -= 1;
 					hydration -= 1;
-					break;
 				}
+				break;
 				case 2:
+					//else if (move == 2)
 				{
 					location = location->getPointer(2);
 					cout << endl << location->getEntryMessage() << endl;
 					turnsRemaining -= 1;
 					hydration -= 1;
-					break;
 				}
+				break;
 				case 3:
+					//else if (move == 3)
 				{
 					location = location->getPointer(3);
 					cout << endl << location->getEntryMessage() << endl;
 					turnsRemaining -= 1;
 					hydration -= 1;
-					break;
 				}
+				break;
 				case 4:
+					//else if (move == 4)
 				{
 					location = location->getPointer(4);
 					cout << endl << location->getEntryMessage() << endl;
 					turnsRemaining -= 1;
 					hydration -= 1;
-					break;
 				}
+				break;
 				case 5:
+					//else if (move == 5)
 				{
 					cout << endl << "You have not moved. You still lose hydration when you don't move." << endl;
 					cout << endl << location->getEntryMessage() << endl;
 					hydration -= 1;
-					break;
 				}
+				break;
 				case 9:
+					//else if (move == 9)
 				{
 					cout << endl << "You have been stung by a giant spider and are being packaged" << endl;
 					cout << "for future enjoyment. Game over." << endl;
 					death = true;
 					done = true;
-					break;
 				}
+				break;
 				} //end of move switch
 			}
+			break;
 			case 3:		//use item
 			{
 				//test if object being held
@@ -344,6 +375,10 @@ int main()
 						{
 							cout << "The tower ghost doesn't like flashlights." << endl;
 							cout << "He turned it off." << endl;
+							cout << "Press enter to continue..." << endl;
+							cin.clear();
+							cin.ignore(256, '\n');
+							cin.get();
 							flashlightOn = false;
 							flashDeath += 1;
 							if (flashDeath >= 3)
@@ -368,6 +403,10 @@ int main()
 							{
 								cout << "The tower ghost doesn't like flashlights." << endl;
 								cout << "He turned it off and threw it out the window." << endl;
+								cout << "Press enter to continue..." << endl;
+								cin.clear();
+								cin.ignore(256, '\n');
+								cin.get();
 								flashDeath += 1;
 								flashlightOn = false;
 								ravine->addObject(currentObject);
@@ -380,7 +419,14 @@ int main()
 									done = true;
 								}
 							}
-							else if (location = ravine) cout << "A flashlight doesn't do much here..." << endl;
+							else if (location == ravine)
+							{
+								cout << "A flashlight doesn't do much here..." << endl;
+								cout << "Press enter to continue..." << endl;
+								cin.clear();
+								cin.ignore(256, '\n');
+								cin.get();
+							}
 							else cout << "You might want to have a look around..." << endl;
 						}
 						else if (choice == 2)
@@ -412,43 +458,57 @@ int main()
 				//test if object already being held
 				if (currentObject == NULL)
 				{
-					int choice = -1;
-					int getComplete = false;
-					//test for items
-					if (location->objectsPresent())
+					if ((location == cave1 || location == cave2) && !flashlightOn)	//in cave but no light
 					{
-						while (choice = -1 && getComplete == false)
+						cout << "It's too dark to see any items. Some light may help." << endl;
+					}
+					//test for cave location and flashlight status   OR   any other location
+					else if (((location == cave1 || location == cave2) && flashlightOn) || (location != cave1 || location != cave2))
+					{
+						//test for items
+						if (location->objectsPresent())
 						{
-							location->displayObjects();		//display item list
-							cout << endl;
-							cout << "Enter the Item # and press enter." << endl;
-							choice = getInput();			//user selects item
-							if (choice > -1 && choice < 10)	//test for valid choice
+							int choice = -1;
+							int getComplete = false;
+							while (choice = -1 && getComplete == false)
 							{
-								if (location->getObject(choice) != NULL)
+								location->displayObjects();		//display item list
+								cout << endl;
+								cout << "Enter the Item # and press enter." << endl;
+								choice = getInput();			//user selects item
+								if (choice > -1 && choice < 10)	//test for valid choice
 								{
-									currentObject = (location->getObject(choice)); //add object to currentObject
-									location->removeObject(choice);		//remove object from space
-									cout << "You are now holding " << currentObject->getName() << endl;
-									getComplete = true;
+									if (location->getObject(choice) != NULL)
+									{
+										currentObject = (location->getObject(choice)); //add object to currentObject
+										location->removeObject(choice);		//remove object from space
+										cout << "You are now holding " << currentObject->getName() << endl;
+										getComplete = true;
+									}
+									else
+									{
+										cout << "Incorrect choice. Try again" << endl;
+										choice = -1;
+									}
 								}
-								else
-								{
-									cout << "Incorrect choice. Try again" << endl;
-									choice = -1;
-								}
-							}
-							else
-							{
-								cout << "Incorrect choice. Try again" << endl;
-								choice = -1;
 							}
 						}
+						else
+						{
+							cout << "No items to pick up here." << endl;
+						}
 					}
-					else
+					/*else if ((location == cave1 || location == cave2) && !flashlightOn)
 					{
-						cout << "No items to pick up here." << endl;
-					}
+						cout << endl << location->getLook1() << endl << endl;
+					}*/
+					//else
+						//{
+						//	//display location view
+						//	cout << endl << location->getLook1() << endl << endl;
+						//	//display objects present
+						//	location->displayObjects();
+						//}
 				}
 				else
 				{
@@ -581,10 +641,52 @@ int main()
 				}
 				break;
 			}
-			case 9:		//exit option
+			case 9:		//special option
 			{
-				done = true;
-				break;
+				int specialResult = location->special();
+				switch (specialResult)
+				{
+				case 1:			//cases 1 to 4 are result from transporting after touching ravine orb
+					location = location->getPointer(specialResult);
+					turnsRemaining -= 1;
+					break;
+				case 2:
+					location = location->getPointer(specialResult);
+					turnsRemaining -= 1;
+					break;
+				case 3:
+					location = location->getPointer(specialResult);
+					turnsRemaining -= 1;
+					break;
+				case 4:
+					location = location->getPointer(specialResult);
+					turnsRemaining -= 1;
+					break;
+				case 5:		//touching orb in a cave
+					turnsRemaining -= 3;
+					hydration -= 2;
+					cout << location->getEntryMessage() << endl;
+					break;
+				case 6:		//touching orb in tower
+					hydration += 1;
+					cout << "The mist has increased your hydration level 1 point." << endl;
+					cout << location->getEntryMessage() << endl;
+					break;
+				case 7:		//touching orb in treehouse
+					if (currentObject == orb)
+					{
+						cout << "The leprechan looks at the orb in your hand a begins to laugh hysterically." << endl;
+						cout << "He takes the orb from your hand jumps out of the window!" << endl;
+						happyLeprechan = true;
+						done = true;
+					}
+					else
+					{
+						cout << "The leprechan looks at your hand, then to the ground. \nHe stands for a moment, the retreats to back behind the chair." << endl;
+					}
+					break;
+				}
+				break;  //break out of menu case 9
 			}
 			default:
 				cout << "Not a valid choice" << endl;
@@ -592,8 +694,15 @@ int main()
 			}	//end of menu loop
 		}
 	}	//end of game while loop
+	if (hydration < 1) cout << "You died from dehydration." << endl;
+	if (turnsRemaining < 1) cout << "You have died from exhaustion." << endl;
 	if (death) cout << endl << "Sorry you didn't make it. Try again ;-)" << endl;
-	system("pause");
+	if (happyLeprechan) cout << endl << "You are a hero! \nYou made him happy! \nYou have saved the world!" << endl;
+	cout << "\n\n\n";
+	//cout << "Press enter to exit..." << endl;
+	//cin.clear();
+	//cin.ignore(256, '\n');
+	//cin.get();
 	return 0;
 }
 
@@ -608,10 +717,11 @@ void displayMenu()
 	cout << "  3) Use the item you are holding" << endl;
 	cout << "  4) Pick up an item" << endl;
 	cout << "  5) Drop an item" << endl;
-	cout << "  6) List backpack contents & what you holding" << endl;
+	cout << "  6) List backpack contents & what you are holding" << endl;
 	cout << "  7) Place an item in your backpack" << endl;
 	cout << "  8) Get an item from your backpack" << endl;
-	cout << "  9) Exit" << endl;
+	cout << "  9) Touch an orb" << endl;
+	cout << "  0) Exit" << endl;
 	cout << endl;
 }
 

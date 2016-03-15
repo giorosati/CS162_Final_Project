@@ -58,5 +58,15 @@ int Ravine::move()
 *********************************************************************/
 int Ravine::special()
 {
-	return -1;
+	cout << "You touched the clear orb..." << endl;
+	cout << "You just blacked out..." << endl;
+	cout << "Press enter to wake up..." << endl;
+	cin.clear();
+	cin.ignore(256, '\n');
+	cin.get();
+	cout << "\n\n\n";
+	cout << "Your eyes open, and you are not where you were..." << endl;
+	cout << "You stand up...you are OK. Better have a look around." << endl;
+	int specialResult = rand() % 4 + 1;  //generates random int between 1 and 4
+	return specialResult;
 }

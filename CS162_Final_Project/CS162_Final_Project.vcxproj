@@ -124,6 +124,7 @@
     <ClCompile Include="ravine.cpp" />
     <ClCompile Include="space.cpp" />
     <ClCompile Include="tower.cpp" />
+    <ClCompile Include="treehouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cave.hpp" />
@@ -131,6 +132,10 @@
     <ClInclude Include="ravine.hpp" />
     <ClInclude Include="space.hpp" />
     <ClInclude Include="tower.hpp" />
+    <ClInclude Include="treehouse.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

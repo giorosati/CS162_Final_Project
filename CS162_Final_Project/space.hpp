@@ -45,12 +45,12 @@ public:
 	string getLook1();				//returns look1
 	string getLook2();				//returns look2
 	Space* getPointer(int);			//returns sPointer1
-	void addObject(Object*);	//add an object to the object array
+	void addObject(Object*);		//add an object to the object array
 	void displayObjects();			//display objects to the console
-	bool objectsPresent();		//returns true if any objects in array, otherwise false
-	Object* getObject(int);		//get the Object pointer at a given array position
-	void removeObject(int);		//remove an Object pointer from the array
-	virtual int move() = 0;		//pure virtual function prototype			
+	bool objectsPresent();			//returns true if any objects in array, otherwise false
+	Object* getObject(int);			//get the Object pointer at a given array position
+	void removeObject(int);			//remove an Object pointer from the array
+	virtual int move() = 0;			//pure virtual function prototype			
 	virtual int special() = 0;		//pure virtual function prototype
 };
 
