@@ -85,3 +85,52 @@ Space* Space::getPointer(int sPointer)
 	else if (sPointer == 4) return sPointer4;
 	else return NULL;
 }
+void Space::addObject(Object* objectIn)
+{
+	bool done = false;
+	for (int i = 0; i < 10; i++)
+	{
+		if (!done && objects[i] == NULL)
+		{
+			objects[i] = objectIn;
+			done = true;
+		}
+	}
+	if (!done) cout << "The array is full, object not added";
+}
+
+void Space::displayObjects()
+{
+	bool noObjects = true;
+	for (int i = 0; i < 10; i++)
+	{
+		if (objects[i] != NULL)
+		{
+			cout << "Item # " << i << "   " << objects[i]->getName() << endl;
+			noObjects = false;
+		}
+	}
+	if (noObjects) cout << "No items visible." << endl;
+	cout << endl;
+}
+bool Space::objectsPresent()
+{
+	bool result = false;
+	for (int i = 0; i < 10; i++)
+	{
+		if (!result && objects[i] != NULL) result = true;
+	}
+	return result;
+}
+
+Object* Space::getObject(int position)
+{
+	return objects[position];
+}
+
+void Space::removeObject(int position)
+{
+	objects[position] = NULL;
+}
+
+

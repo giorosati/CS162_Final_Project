@@ -34,9 +34,6 @@ protected:
 	Space* sPointer3;
 	Space* sPointer4;
 
-	//vector<Object*> objects;
-	//NodeLL<Object*> objectList;
-
 public:
 	Space();						//default constructor
 	Space(string name, string description, string entryMessage, string look1, string look2); //constructor
@@ -48,10 +45,11 @@ public:
 	string getLook1();				//returns look1
 	string getLook2();				//returns look2
 	Space* getPointer(int);			//returns sPointer1
-	//Space* getPointer2();			//returns sPointer2
-	//Space* getPointer3();			//returns sPointer3
-	//Space* getPointer4();			//returns sPointer4
-	//virtual string displayMoves();	//pure virtual funciton prototype
+	void addObject(Object*);	//add an object to the object array
+	void displayObjects();			//display objects to the console
+	bool objectsPresent();		//returns true if any objects in array, otherwise false
+	Object* getObject(int);		//get the Object pointer at a given array position
+	void removeObject(int);		//remove an Object pointer from the array
 	virtual int move() = 0;		//pure virtual function prototype			
 	virtual int special() = 0;		//pure virtual function prototype
 };

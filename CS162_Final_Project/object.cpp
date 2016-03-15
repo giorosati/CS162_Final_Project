@@ -15,43 +15,53 @@
 using std::cout;
 using std::endl;
 
-Object::Object(string name, string description)
+Object::Object(int id, string name)
 {
+	this->id = id;
 	this->name = name;
-	this->description = description;
-	this->powerState = false;
-	this->empty = false;
+	//this->powerState = false;
+	//this->empty = false;
 }
 
 Object::~Object()
 {}
+
+int Object::getId()
+{
+	return id;
+}
+
+void Object::setId(int id)
+{
+	this->id = id;
+}
 
 string Object::getName()
 {
 	return name;
 }
 
-string Object::getDescription()
+void Object::setName(string name)
 {
-	return description;
+	this->name = name;
 }
 
-bool Object::getPowerState()
-{
-	return powerState;
-}
+//bool Object::getPowerState()
+//{
+//	return powerState;
+//}
+//
+//void Object::setPowerState(bool powerStateIn)
+//{
+//	this->powerState = powerStateIn;
+//}
 
-void Object::setPowerState(bool powerStateIn)
-{
-	this->powerState = powerStateIn;
-}
-
-bool Object::getEmpty()
-{
-	return empty;
-}
-
-void Object::setEmpty(bool emptyIn)
-{
-	this->empty = emptyIn;
-}
+//bool Object::getEmpty()
+//{
+//	return empty;
+//}
+//
+//void Object::setEmpty(bool emptyIn)
+//{
+//	this->empty = emptyIn;
+//}
