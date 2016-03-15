@@ -137,6 +137,7 @@ int main()
 			death = true;
 		}
 		else cout << endl << "You have " << turnsRemaining << " turns left and your hydration level is " << hydration << "." << endl;
+		if (hydration < 2) cout << "You are dangerously close to dying from dehydration..." << endl;
 		if (!death)
 		{
 			displayMenu();
@@ -145,10 +146,22 @@ int main()
 			switch (menuChoice) {
 			case 1:		//look
 			{
-				//display locations views
-				cout << endl << location->getLook1() << endl << endl;
-				//display objects present
-				location->displayObjects();
+				if ((location == cave1 || location == cave2) && flashlightOn)
+				{
+					cout << endl << location->getLook2() << endl << endl;
+					location->displayObjects();
+				}
+				else if ((location == cave1 || location == cave2) && !flashlightOn)
+				{
+					cout << endl << location->getLook1() << endl << endl;
+				}
+				else
+				{
+					//display locations views
+					cout << endl << location->getLook1() << endl << endl;
+					//display objects present
+					location->displayObjects();
+				}
 				break;
 			}
 			case 2:		//move
@@ -196,7 +209,8 @@ int main()
 				}
 				case 9:
 				{
-					cout << endl << "You have been stung by a giant spider and are being packaged for future enjoyment." << endl;
+					cout << endl << "You have been stung by a giant spider and are being packaged" << endl;
+					cout << "for future enjoyment. Game over." << endl;
 					death = true;
 					done = true;
 					break;
