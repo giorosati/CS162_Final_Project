@@ -24,6 +24,8 @@ public:
 	Tower(string name, string description, string entryMessage, string look1, string look2); //constructor
 	~Tower();		//deconstructor
 
+	int move();
+
 /*********************************************************************
 ** Function: special
 ** Description:

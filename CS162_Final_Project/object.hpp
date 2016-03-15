@@ -19,20 +19,20 @@ using std::string;
 class Object
 {
 protected:
-	string oName;
-	string oDescription;
-	int powerState;
-	int empty;
+	string name;
+	string description;
+	bool powerState;
+	bool empty;
 
 public:
-	Object();					//default constructor
+	Object(string name, string description);	//constructor
 	~Object();					//deconstructor
 	string getName();			//returns name
 	string getDescription();	//returns description
-	int getPowerState();		//returns powerState
-	void setPowerState(int);	//sets powerState
-	int getEmpty();				//returns empty
-	void setEmpty(int);			//sets empty
+	bool getPowerState();		//returns powerState
+	void setPowerState(bool);		//sets powerState
+	bool getEmpty();				//returns empty
+	void setEmpty(bool);			//sets empty
 
 };
 

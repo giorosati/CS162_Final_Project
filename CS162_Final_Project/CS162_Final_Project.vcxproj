@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="cave.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="object.cpp" />
     <ClCompile Include="ravine.cpp" />
     <ClCompile Include="space.cpp" />
     <ClCompile Include="tower.cpp" />
@@ -127,7 +128,6 @@
   <ItemGroup>
     <ClInclude Include="cave.hpp" />
     <ClInclude Include="object.hpp" />
-    <ClInclude Include="player.hpp" />
     <ClInclude Include="ravine.hpp" />
     <ClInclude Include="space.hpp" />
     <ClInclude Include="tower.hpp" />

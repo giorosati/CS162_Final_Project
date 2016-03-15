@@ -44,6 +44,14 @@ Space::~Space()
 	//cout << "Space deconstructor has run" << endl;
 }
 
+void Space::setPointers(Space* sPointer1, Space* sPointer2, Space* sPointer3, Space* sPointer4)
+{
+	this->sPointer1 = sPointer1;
+	this->sPointer2 = sPointer2;
+	this->sPointer3 = sPointer3;
+	this->sPointer4 = sPointer4;
+}
+
 string Space::getName()
 {
 	return name;
@@ -67,4 +75,13 @@ string Space::getLook1()
 string Space::getLook2()
 {
 	return look2;
+}
+
+Space* Space::getPointer(int sPointer)
+{
+	if (sPointer == 1) return sPointer1;
+	else if (sPointer == 2) return sPointer2;
+	else if (sPointer == 3) return sPointer3;
+	else if (sPointer == 4) return sPointer4;
+	else return NULL;
 }

@@ -25,6 +25,12 @@ public:
 	Cave(string name, string description, string entryMessage, string look1, string look2); //constructor
 	~Cave();		//deconstructor
 
+
+
+	int move();
+
+
+
 /*********************************************************************
 ** Function: special
 ** Description:

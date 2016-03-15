@@ -25,6 +25,9 @@ public:
 	Ravine(string name, string description, string entryMessage, string look1, string look2); //constructor
 	~Ravine();		//deconstructor
 
+
+	int move();
+
 /*********************************************************************
 ** Function: special
 ** Description:

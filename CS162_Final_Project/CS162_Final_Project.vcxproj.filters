@@ -30,15 +30,15 @@
     <ClCompile Include="cave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="space.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="object.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cave.hpp">

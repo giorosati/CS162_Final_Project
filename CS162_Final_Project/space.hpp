@@ -38,15 +38,22 @@ protected:
 	//NodeLL<Object*> objectList;
 
 public:
-	Space();					//default constructor
+	Space();						//default constructor
 	Space(string name, string description, string entryMessage, string look1, string look2); //constructor
-	~Space();					//deconstructor
-	string getName();			//returns name
-	string getDescription();	//returns description
-	string getEntryMessage();	//returns entry message
+	~Space();						//deconstructor
+	void setPointers(Space*, Space*, Space*, Space*);	//set pointers
+	string getName();				//returns name
+	string getDescription();		//returns description
+	string getEntryMessage();		//returns entry message
 	string getLook1();				//returns look1
 	string getLook2();				//returns look2
-	virtual int special() = 0;	//pure virtual function prototype
+	Space* getPointer(int);			//returns sPointer1
+	//Space* getPointer2();			//returns sPointer2
+	//Space* getPointer3();			//returns sPointer3
+	//Space* getPointer4();			//returns sPointer4
+	//virtual string displayMoves();	//pure virtual funciton prototype
+	virtual int move() = 0;		//pure virtual function prototype			
+	virtual int special() = 0;		//pure virtual function prototype
 };
 
 #endif
