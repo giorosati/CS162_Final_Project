@@ -18,7 +18,8 @@ using std::endl;
 using std::cin;
 using std::stringstream;
 
-Cave::Cave(string name, string description, string entryMessage, string look1, string look2) //constructor
+//constructor
+Cave::Cave(string name, string description, string entryMessage, string look1, string look2) 
 	: Space(name, description, entryMessage, look1, look2)
 {}
 
@@ -27,6 +28,14 @@ Cave::~Cave()
 	//cout << " deconstructor has run." << endl;
 }
 
+/*********************************************************************
+** Function: move
+** Description: Presents a menu to the user. User must enter 1, 2, 
+** or 3. 
+** Parameters: none
+** Pre-Conditions: none
+** Post-Conditions: returns 5, 9, or 1 for additional processing in main()
+*********************************************************************/
 int Cave::move()
 {
 	int move = 0;
@@ -39,17 +48,7 @@ int Cave::move()
 		cout << endl;
 		cout << "Enter 1, 2, or 3 and press enter:" << endl;
 		cin >> move;
-
-		//replaces cin >> move;
-		//string stringIn;
-		//getline(cin, stringIn);
-		//stringstream(stringIn) >> move;
-		//cin.clear();
-		//cin.ignore(256, '\n');
-
-
-
-
+		cin.ignore(256, '\n');
 		if (move != 1 && move != 2 && move != 3)
 		{
 			cout << "Invalid response. " << endl;
@@ -64,24 +63,24 @@ int Cave::move()
 
 /*********************************************************************
 ** Function: special
-** Description:
-**
+** Description: Electrocutes the player. Player's turn count is 
+** reduced by three and hydration is reduced by 2
 ** Parameters: none
-** Pre-Conditions:
-** Post-Conditions:
+** Pre-Conditions: none
+** Post-Conditions: returns 5 for additional processing in main()
 *********************************************************************/
 int Cave::special()
 {
 	cout << "You touch the black orb..." << endl;
-	cout << "It electrocuted you...you are now unconciuos" << endl;
+	cout << "It electrocuted you...you are now unconscious" << endl;
 	cout << "Press enter to wake up..." << endl;
 	cin.clear();
 	cin.ignore(256, '\n');
 	cin.get();
 	cout << "\n\n";
-	cout << "You wake up and are very thirsty..." << endl;
-	cout << "It appears you have been unconcious for quite some time." << endl;
-	cout << "You lost three turns while unconcious and also lost 2 hydration points." << endl;
+	cout << "You wake up very groggy..." << endl;
+	cout << "It appears you have been unconscious for quite some time." << endl;
+	cout << "You lost 3 turns and 2 hydration points." << endl;
 	cout << endl;
 	return 5;
 }

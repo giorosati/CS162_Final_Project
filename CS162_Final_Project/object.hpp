@@ -18,12 +18,10 @@ using std::string;
 
 class Object
 {
-protected:
+private:
 	int id;
 	string name;
 	string description;
-	//bool powerState;
-	//bool empty;
 
 public:
 	Object(int id, string name);	//constructor
@@ -32,11 +30,6 @@ public:
 	void setId(int);			//sets id
 	string getName();			//returns name
 	void setName(string name);		//sets name
-	//bool getPowerState();		//returns powerState
-	//void setPowerState(bool);		//sets powerState
-	//bool getEmpty();				//returns empty
-	//void setEmpty(bool);			//sets empty
-
 };
 
 #endif

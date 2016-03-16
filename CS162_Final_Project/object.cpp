@@ -19,8 +19,6 @@ Object::Object(int id, string name)
 {
 	this->id = id;
 	this->name = name;
-	//this->powerState = false;
-	//this->empty = false;
 }
 
 Object::~Object()
@@ -45,23 +43,3 @@ void Object::setName(string name)
 {
 	this->name = name;
 }
-
-//bool Object::getPowerState()
-//{
-//	return powerState;
-//}
-//
-//void Object::setPowerState(bool powerStateIn)
-//{
-//	this->powerState = powerStateIn;
-//}
-
-//bool Object::getEmpty()
-//{
-//	return empty;
-//}
-//
-//void Object::setEmpty(bool emptyIn)
-//{
-//	this->empty = emptyIn;
-//}

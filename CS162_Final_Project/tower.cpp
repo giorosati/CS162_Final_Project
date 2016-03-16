@@ -25,18 +25,27 @@ Tower::~Tower()
 	//cout << " deconstructor has run." << endl;
 }
 
+/*********************************************************************
+** Function: move
+** Description: Presents a menu to the user. User must enter 1, 2,
+** or 3.
+** Parameters: none
+** Pre-Conditions: none
+** Post-Conditions: returns 5, 2, or 1 for additional processing in main()
+*********************************************************************/
 int Tower::move()
 {
 	int move = 0;
 	while (move == 0)
 	{
 		cout << "Where would you like to go?" << endl;
-		cout << "1) Down the stairs." << endl;
-		cout << "2) Accross the rope bridge." << endl;
-		cout << "3) Stay put." << endl;
+		cout << "1) Down the circular stairwell." << endl;
+		cout << "2) Accross the rope bridge into the mist." << endl;
+		cout << "3) Stay here." << endl;
 		cout << endl;
 		cout << "Enter 1, 2, or 3 and press enter:" << endl;
 		cin >> move;
+		cin.ignore(256, '\n');
 		if (move != 1 && move != 2 && move != 3)
 		{
 			cout << "Invalid response. " << endl;
@@ -52,38 +61,37 @@ int Tower::move()
 
 /*********************************************************************
 ** Function: special
-** Description:
-**
+** Description: Create mist in the tower, then a voice gives the 
+** player a big hint to solvign the game.
 ** Parameters: none
 ** Pre-Conditions:
-** Post-Conditions:
+** Post-Conditions: returns 6 to main() for additional processing
 *********************************************************************/
 int Tower::special()
 {
 	cout << "You touch the white orb..." << endl;
 	cout << "A heavy mist slowy pours in through the widows..." << endl;
 	cout << "Press enter to continue..." << endl;
-	cin.clear();
 	cin.ignore(256, '\n');
 	cin.get();
 	cout << "It is now at your waist..." << endl;
 	cout << "Press enter to continue..." << endl;
 	cin.clear();
-	cin.ignore(256, '\n');
+	//cin.ignore(256, '\n');
 	cin.get();
 	cout << "It has completely filled the room...you can see nothing." << endl;
 	cout << "Press enter to continue..." << endl;
 	cin.clear();
-	cin.ignore(256, '\n');
+	//cin.ignore(256, '\n');
 	cin.get();
 	cout << "A deep voice behind you says \n" << endl;
 	cout << "\"Leprechan's like tree houses and green orbs!\"\n\n" << endl;
 	cout << "Press enter to continue..." << endl;
 	cin.clear();
-	cin.ignore(256, '\n');
+	//cin.ignore(256, '\n');
 	cin.get();
-	cout << "\n\n";
+	cout << endl;
 	cout << "The mist clears away..." << endl;
-	cout << "\n\n";
+	cout << endl;;
 	return 6;
 }

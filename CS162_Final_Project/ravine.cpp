@@ -16,7 +16,8 @@ using std::cout;
 using std::endl;
 using std::cin;
 
-Ravine::Ravine(string name, string description, string entryMessage, string look1, string look2) //constructor
+//constructor
+Ravine::Ravine(string name, string description, string entryMessage, string look1, string look2) 
 	: Space(name, description, entryMessage, look1, look2)
 {}
 
@@ -25,6 +26,14 @@ Ravine::~Ravine()
 	//cout << " deconstructor has run." << endl;
 }
 
+/*********************************************************************
+** Function: move
+** Description: Presents a menu to the user. User must enter 1, 2,
+** 3, 4 or 5.
+** Parameters: none
+** Pre-Conditions: none
+** Post-Conditions: returns user's choice for additional processing in main()
+*********************************************************************/
 int Ravine::move()
 {
 	int move = 0;
@@ -32,13 +41,14 @@ int Ravine::move()
 	{
 		cout << "Where would you like to go?" << endl;
 		cout << "1) Into the cave with the stream." << endl;
-		cout << "2) Into the dry cave." << endl;
-		cout << "3) Up the stairs to the left." << endl;
-		cout << "4) Up the stairs to the right." << endl;
+		cout << "2) Into the dry cave behind you." << endl;
+		cout << "3) Up the stairs to the left, into the mist." << endl;
+		cout << "4) Up the stairs to the right, into the mist." << endl;
 		cout << "5) Stay put." << endl;
 		cout << endl;
 		cout << "Enter 1, 2, 3, 4, or 5 and press enter:" << endl;
 		cin >> move;
+		cin.ignore(256, '\n');
 		if (move != 1 && move != 2 && move != 3 && move != 4 && move !=5)
 		{
 			cout << "Invalid response. " << endl;
@@ -50,11 +60,11 @@ int Ravine::move()
 
 /*********************************************************************
 ** Function: special
-** Description:
-**
+** Description: "Blacks out player and transports he/she to one of the
+** other four spaces. The destination is chosen randomly each time.
 ** Parameters: none
 ** Pre-Conditions:
-** Post-Conditions:
+** Post-Conditions: returns 1,2,3 or 4 to main() to determine new location.
 *********************************************************************/
 int Ravine::special()
 {

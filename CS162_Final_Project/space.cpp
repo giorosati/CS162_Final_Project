@@ -16,10 +16,12 @@
 using std::cout;
 using std::endl;
 
+//default constructor
 Space::Space()
 {
 }
 
+//constructor
 Space::Space(string name, string description, string entryMessage, string look1, string look2)
 {
 	this->name = name;
@@ -44,6 +46,7 @@ Space::~Space()
 	//cout << "Space deconstructor has run" << endl;
 }
 
+//sets Space all pointers
 void Space::setPointers(Space* sPointer1, Space* sPointer2, Space* sPointer3, Space* sPointer4)
 {
 	this->sPointer1 = sPointer1;
@@ -52,31 +55,32 @@ void Space::setPointers(Space* sPointer1, Space* sPointer2, Space* sPointer3, Sp
 	this->sPointer4 = sPointer4;
 }
 
-string Space::getName()
+string Space::getName()	//returns name
 {
 	return name;
 }
 
-string Space::getDescription()
+string Space::getDescription()	//returns description
 {
 	return description;
 }
 
-string Space::getEntryMessage()
+string Space::getEntryMessage()	//returns entryMessage
 {
 	return entryMessage;
 }
 
-string Space::getLook1()
+string Space::getLook1()	//returns look1 string
 {
 	return look1;
 }
 
-string Space::getLook2()
+string Space::getLook2()	//returns look2 string
 {
 	return look2;
 }
 
+//returns pointer 1,2,3 or 4 depending on the int parameter
 Space* Space::getPointer(int sPointer)
 {
 	if (sPointer == 1) return sPointer1;
@@ -85,6 +89,9 @@ Space* Space::getPointer(int sPointer)
 	else if (sPointer == 4) return sPointer4;
 	else return NULL;
 }
+
+//adds an object pointer to the first available array position, 
+//and returns a string message if the array is full
 void Space::addObject(Object* objectIn)
 {
 	bool done = false;
@@ -99,6 +106,8 @@ void Space::addObject(Object* objectIn)
 	if (!done) cout << "The array is full, object not added";
 }
 
+//outputs to the console the objects in the array
+//or a message if the array is empty
 void Space::displayObjects()
 {
 	bool noObjects = true;
@@ -113,6 +122,9 @@ void Space::displayObjects()
 	if (noObjects) cout << "No items visible." << endl;
 	cout << endl;
 }
+
+//returns true if any objects exist in the array
+//returns false if the array is empty
 bool Space::objectsPresent()
 {
 	bool result = false;
@@ -123,14 +135,16 @@ bool Space::objectsPresent()
 	return result;
 }
 
+//returns the object pointer at the array 
+//position detemined by parameter
 Object* Space::getObject(int position)
 {
 	return objects[position];
 }
 
+//sets the object pointer at an array 
+//position (detemined by parameter) to NULL
 void Space::removeObject(int position)
 {
 	objects[position] = NULL;
 }
-
-

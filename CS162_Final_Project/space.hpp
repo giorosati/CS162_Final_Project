@@ -4,6 +4,8 @@
 ** email: rosatig@oregonstate.edu
 ** Date: 2016-03-11
 ** Description: Space class header file CS162_400 Final Project
+** This is a parent class for the cave, ravine, tower, and treehouse
+** classes. Some functions are pure virtual.
 *********************************************************************/
 
 #ifndef SPACE_HPP
@@ -21,7 +23,7 @@ using std::vector;
 
 class Space
 {
-protected:
+private:
 	string name;
 	string description;
 	string entryMessage;

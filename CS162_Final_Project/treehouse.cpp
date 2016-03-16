@@ -25,6 +25,14 @@ Treehouse::~Treehouse()
 	//cout << " deconstructor has run." << endl;
 }
 
+/*********************************************************************
+** Function: move
+** Description: Presents a menu to the user. User must enter 1, 2,
+** or 3.
+** Parameters: none
+** Pre-Conditions: none
+** Post-Conditions: returns 5, 2, or 1 for additional processing in main()
+*********************************************************************/
 int Treehouse::move()
 {
 	int move = 0;
@@ -37,6 +45,7 @@ int Treehouse::move()
 		cout << endl;
 		cout << "Enter 1, 2, or 3 and press enter:" << endl;
 		cin >> move;
+		cin.ignore(256, '\n');
 		if (move != 1 && move != 2 && move != 3)
 		{
 			cout << "Invalid response. " << endl;
@@ -52,16 +61,17 @@ int Treehouse::move()
 
 /*********************************************************************
 ** Function: special
-** Description:
-**
+** Description: Makes the Leprechaun appear from hiding. If user is
+** holding the green orb the puzzle is solved and program will proceed
+** down a path to termination.
 ** Parameters: none
 ** Pre-Conditions:
-** Post-Conditions:
+** Post-Conditions: returns 7 to main() for additional processing.
 *********************************************************************/
 int Treehouse::special()
 {
 	cout << "You touch the green orb..." << endl;
-	cout << "A leprechan jumps out from behind a chair and startles you." << endl;
+	cout << "A Leprechaun jumps out from behind a chair and startles you." << endl;
 	cout << "Press enter to continue..." << endl;
 	cin.clear();
 	cin.ignore(256, '\n');

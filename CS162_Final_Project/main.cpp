@@ -3,7 +3,8 @@
 ** Author: Giovanni Rosati
 ** email: rosatig@oregonstate.edu
 ** Date: 2016-03-11
-** Description: main.cpp file for CS162_400 Assignment 4
+** Description: main.cpp file for CS162_400 Final Assignment
+** This is a C++ console puzzle game.
 *********************************************************************/
 
 //includes
@@ -32,38 +33,33 @@ using std::stringstream;
 //function prototypes
 void displayMenu();				//displays user options to console
 int getInput();					//gets user input
-void grabObject(Object*);		//removes object from space & makes it currentObject
-void dropObject(Object*);		//removes object from currentObject, places it in current Space
-void removeObject(Object*);		//removes an object from backpack
-void addObject(Object*);		//adds an object to backpack
-//bool objectsPresent();			//returns true if any objects in backpack, otherwise false
 
 int main()
 {
 	srand((unsigned)time(NULL));		//initialize random number generator
-	bool done = false;					//for menu
-	bool death = false;					//toggle player death
-	bool happyLeprechan = false;		//toggle leprechan mood
-	int move = 0;						//for moves
-	Space* location = NULL;				//current location
-	int turnsRemaining = 20;			//counter for number of turns
-	int hydration = 5;					//track hydration
-	bool flashlightOn = false;			//track flashlight state
-	int flashDeath = 0;					//counter for potential death in tower1
-	Object* backpack[4];				//array for objects in backpack
+	bool done = false;					//for game exit
+	bool death = false;					//player death flag
+	bool happyLeprechaun = false;		//Leprechaun mood flag
+	int move = 0;						//move option
+	Space* location = NULL;				//current location pointer
+	int turnsRemaining = 30;			//counter for number of turns
+	int hydration = 10;					//hydration "tank"
+	bool flashlightOn = false;			//flashlight state
+	int flashDeath = 0;					//counter for death by ghost in tower
+	Object* backpack[4];				//pointer to backpack array
 	for (int i = 0; i < 4; i++)
 	{
 		backpack[i] = NULL;				//set backpack object pointers to NULL
 	}
-	Object* currentObject = NULL;		//object currently being used
+	Object* currentObject = NULL;		//object currently being held by player
 
-	//populate the world
+	//seed the world
 	//create the spaces
-	Space* ravine = new Ravine("Mossy ravine", "A narrow ravine with steep moss covered sides, a stream, and gently moving dense mist...", "You are in a ravine.", "You see a gently flowing stream, a dark wet cave to your left \nthat the stream comes out of, another cave behind you, \nand two stone stairs in front of you, both leading up into the mist. \nAt the edge of the stream there is a clear orb atop a marble obelisk.", "");
-	Space* cave1 = new Cave("Wet Cave", "A pitch black, very wet cave with a stream flowing towards the entrance.", "You are in a very wet & dark cave.", "All you can see is dim light in the direction of the cave mouth and \na black orb atop a marble obelisk. \nSome light would reveal more.", "You can see the dim light in the direction of the cave mouth, \na giant spider further back in the cave, \na black orb atop a marble obelisk and the following items:");
-	Space* cave2 = new Cave("Dry Cave", "A pitch black cave", "You are in a dark cave.", "All you can see is dim light in the direction of the cave mouth and \na black orb atop a marble obelisk. \nSome light would reveal more.", "You can see the dim light in the direction of the cave mouth, \na giant spider further back in the cave, \na black orb atop a marble obelisk and the following items:");
-	Space* tower1 = new Tower("Stone Tower", "A circular room with open windows at the top of a high stone tower.", "You are at the top of a stone tower.", "You are in a dim circular room with windows. It is very misty outside. \nYou can see stairs going down, a white orb atop a marble obelisk, \na rope bridge leading into the mist, and the following items:", "");
-	Space* treehouse1 = new Treehouse("Tree House", "A rustic, weathered tree house surrounded by mist.", "You are in a tree house.", "You can see stairs going down, a bright green orb atop a wooden post, \na rope bridge leading into the mist, and the following items:", "");
+	Space* ravine = new Ravine("Mossy ravine", "A narrow ravine with steep moss covered sides, a stream, and gently moving dense mist...", "You are in a ravine.", "You see a gently flowing stream, a dark wet cave to your left \nthat the stream comes out of, another cave behind you, \nand in front of you is a bridge to two stone stairways, \nboth leading up into the mist. \nAt the bridge there is a clear orb atop a marble obelisk,  \nand the following items:", "");
+	Space* cave1 = new Cave("Wet Cave", "A pitch black, very wet cave with a stream flowing towards the entrance.", "You are in a very wet & dark cave.", "All you can see is dim light in the direction of the cave mouth and \na black orb atop a marble obelisk. \nYou will need a light source to see what else may be here.", "You can see the dim light in the direction of the cave mouth, \na giant menacing spider furter back in the cave, \na black orb atop a marble obelisk, and the following items:");
+	Space* cave2 = new Cave("Dry Cave", "A pitch black cave", "You are in a dark cave.", "All you can see is dim light in the direction of the cave mouth and \na black orb atop a marble obelisk. \nYou will need a light source to see what else may be here.", "You can see the dim light in the direction of the cave mouth, \na giant menacing spider further back in the cave, \na black orb atop a marble obelisk, and the following items:");
+	Space* tower1 = new Tower("Stone Tower", "A circular room with open windows at the top of a high stone tower.", "You are in a circular room at the top of a stone tower.", "You are in a dim circular room with windows at the top of a stone tower. \nIt is very misty outside. \nYou can see stairs going down, a white orb atop a marble obelisk, \na rope bridge leading into the mist, and the following items:", "");
+	Space* treehouse1 = new Treehouse("Tree House", "A rustic, weathered tree house surrounded by mist.", "You are in a rustic, weathered tree house.", "You can see stairs going down, a bright green orb atop a wooden post, \na rope bridge leading into the mist, and the following items:", "");
 
 	//set pointers of the spaces
 	ravine->setPointers(cave1, cave2, tower1, treehouse1);
@@ -92,19 +88,6 @@ int main()
 	tower1->addObject(flashlight); //flashlight to tower
 	treehouse1->addObject(water3);	 //good water to treehouse
 
-	//for testing
-	//test objects in space arrays
-	//cout << "Objects in ravine: " << endl;
-	//ravine->displayObjects();
-	//cout << "Objects in cave1: " << endl;
-	//cave1->displayObjects();
-	//cout << "Objects in cave2: " << endl;
-	//cave2->displayObjects();
-	//cout << "Objects in tower1: " << endl;
-	//tower1->displayObjects();
-	//cout << "Objects in treehouse1: " << endl;
-	//treehouse1->displayObjects();
-
 	//set start location
 	location = ravine;
 
@@ -124,16 +107,39 @@ int main()
 	cout << endl;
 	cout << endl;
 	cout << "****************************************" << endl;
-	cout << "Welcome to make the leprechan happy game" << endl;
+	cout << "Welcome to \"Make the Leprechaun Happy\" game" << endl;
 	cout << endl;
-	cout << "You will have 20 moves to try to find and please the leprechan. " << endl;
-	cout << "You current hydration level is 5. You loose one hydration level" << endl;
-	cout << "every turn. Drinking safe water adds 5 to your hydration level." << endl;
-	cout << "If your hydration level reaches zero you die." << endl;
-	cout << "If the leprechan doesn't laugh the world ends..." << endl;
-	cout << "so please save the world!" << endl;
-	cout << "FYI, dangerous things exist in this realm..." << endl;
+	cout << "You will have 30 moves to find and please the Leprechaun. " << endl;
+	cout << "Your current hydration level is 10. You loose one hydration level" << endl;
+	cout << "every time you move or cancel a move." << endl;
+	cout << "Drinking safe water adds 5 to your hydration level." << endl;
+	cout << "This is important because if your hydration level reaches zero you die." << endl;
+	cout << "You can only hold and use one item at a time, but you have a" << endl;
+	cout << "backpack that holds up to three items." << endl;
+	cout << "You can drop items wherever you are and they keep working..." << endl;
+	cout << "Orbs exist in many places and you can touch them." << endl;
+	cout << endl;
+	cout << "Most importantly, if the Leprechaun doesn't laugh the world ends." << endl;
+	cout << endl;
+	cout << "Dangerous things exist here..." << endl;
+	cout << endl;
+	cout << "Please save the world!" << endl;
+	cout << endl;
+	cout << "HINT: " << endl;
+	cout << "This puzzle / game can be solved in only 5 moves" << endl;
+	cout << "and 5 \"actions\" (pick up, drop, use, touch)." << endl;
 	cout << "Good luck..." << endl;
+	cout << endl;
+	cout << "Press enter to continue..." << endl;
+	cin.get();
+	cout << "You begin your journey in a cool and damp ravine." << endl;
+	cout << "The steep walls are thickly covered in ferns and moss." << endl;
+	cout << "A crystal clear stream gently flows by in front of you." << endl;
+	cout << "Mist continually moves through the ravine creating a serene" << endl;
+	cout << "feel, but visibility is limited... " << endl;
+	cout << endl;
+	cout << "Let the game begin..." << endl;
+	
 
 	while (done != true)
 	{
@@ -148,6 +154,7 @@ int main()
 			done = true;
 			death = true;
 		}
+		//status update to user
 		else cout << endl << "You have " << turnsRemaining << " turns left and your hydration level is " << hydration << "." << endl;
 		cout << endl;
 		if (hydration < 3 && hydration > 0) cout << "You are dangerously close to dying from dehydration..." << endl;
@@ -155,9 +162,12 @@ int main()
 		if (!death)
 		{
 			cout << "Press enter to continue..." << endl;
+			//cin.clear();
+			//cin.ignore(256, '\n');
 			cin.clear();
-			cin.ignore(256, '\n');
+			//cin.get();
 			cin.get();
+			cout << endl;
 			displayMenu();
 			int menuChoice = 0;			//for menu/user inputs
 			menuChoice = getInput();
@@ -185,6 +195,7 @@ int main()
 					//display objects present
 					location->displayObjects();
 				}
+				cin.ignore(256, '\n');
 				break;
 			}
 			case 2:		//move
@@ -193,7 +204,6 @@ int main()
 				switch (move)
 				{
 				case 1:
-					//if (move == 1)
 				{
 					location = location->getPointer(1);
 					cout << endl << location->getEntryMessage() << endl;
@@ -202,7 +212,6 @@ int main()
 				}
 				break;
 				case 2:
-					//else if (move == 2)
 				{
 					location = location->getPointer(2);
 					cout << endl << location->getEntryMessage() << endl;
@@ -211,7 +220,6 @@ int main()
 				}
 				break;
 				case 3:
-					//else if (move == 3)
 				{
 					location = location->getPointer(3);
 					cout << endl << location->getEntryMessage() << endl;
@@ -220,7 +228,6 @@ int main()
 				}
 				break;
 				case 4:
-					//else if (move == 4)
 				{
 					location = location->getPointer(4);
 					cout << endl << location->getEntryMessage() << endl;
@@ -229,7 +236,6 @@ int main()
 				}
 				break;
 				case 5:
-					//else if (move == 5)
 				{
 					cout << endl << "You have not moved. You still lose hydration when you don't move." << endl;
 					cout << endl << location->getEntryMessage() << endl;
@@ -237,13 +243,14 @@ int main()
 				}
 				break;
 				case 9:
-					//else if (move == 9)
 				{
 					cout << endl << "You have been stung by a giant spider and are being packaged" << endl;
 					cout << "for future enjoyment. Game over." << endl;
+					cout << "Press enter to continue." << endl;
 					death = true;
 					done = true;
 				}
+				cin.ignore(256, '\n');
 				break;
 				} //end of move switch
 			}
@@ -376,7 +383,7 @@ int main()
 							cout << "The tower ghost doesn't like flashlights." << endl;
 							cout << "He turned it off." << endl;
 							cout << "Press enter to continue..." << endl;
-							cin.clear();
+							//cin.clear();
 							cin.ignore(256, '\n');
 							cin.get();
 							flashlightOn = false;
@@ -404,8 +411,8 @@ int main()
 								cout << "The tower ghost doesn't like flashlights." << endl;
 								cout << "He turned it off and threw it out the window." << endl;
 								cout << "Press enter to continue..." << endl;
-								cin.clear();
-								cin.ignore(256, '\n');
+								//cin.clear();
+								//cin.ignore(256, '\n');
 								cin.get();
 								flashDeath += 1;
 								flashlightOn = false;
@@ -423,8 +430,8 @@ int main()
 							{
 								cout << "A flashlight doesn't do much here..." << endl;
 								cout << "Press enter to continue..." << endl;
-								cin.clear();
-								cin.ignore(256, '\n');
+								//cin.clear();
+								//cin.ignore(256, '\n');
 								cin.get();
 							}
 							else cout << "You might want to have a look around..." << endl;
@@ -451,6 +458,7 @@ int main()
 				{
 					cout << "You are not holding anything." << endl;
 				}
+				cin.ignore(256, '\n');
 				break;
 			}
 			case 4:		//pick up item
@@ -514,6 +522,7 @@ int main()
 				{
 					cout << "You cannot pick up another item because you are already holding something" << endl;
 				}
+				cin.ignore(256, '\n');
 				break;
 			}
 			case 5:		//drop item
@@ -532,11 +541,12 @@ int main()
 				{
 					cout << "You are not holding anything, nothing to drop" << endl;
 				}
+				cin.ignore(256, '\n');
 				break;
 			}
-			case 6:		//list backpack
+			case 6:		//list backpack & item held
 			{
-				if (currentObject != NULL) cout << "You are holdling: " << currentObject->getName() << endl;
+				if (currentObject != NULL) cout << "You are holdling: " << endl << currentObject->getName() << endl;
 				else cout << "You are not holding anything" << endl;
 				cout << endl;
 				bool noObjects = true;
@@ -551,6 +561,7 @@ int main()
 				}
 				if (noObjects) cout << "No items." << endl;
 				cout << endl;
+				cin.ignore(256, '\n');
 				break;
 			}
 			case 7:		//put item in backpack
@@ -578,6 +589,7 @@ int main()
 				{
 					cout << "You are not holding anything to put in the backpack." << endl;
 				}
+				cin.ignore(256, '\n');
 				break;
 			}
 			case 8:		//get item from backpack
@@ -639,6 +651,7 @@ int main()
 				{
 					cout << "You cannot get something from the backpack because you are already holding something" << endl;
 				}
+				cin.ignore(256, '\n');
 				break;
 			}
 			case 9:		//special option
@@ -675,21 +688,23 @@ int main()
 				case 7:		//touching orb in treehouse
 					if (currentObject == orb)
 					{
-						cout << "The leprechan looks at the orb in your hand a begins to laugh hysterically." << endl;
-						cout << "He takes the orb from your hand jumps out of the window!" << endl;
-						happyLeprechan = true;
+						cout << "The Leprechaun looks at the orb in your hand and begins to laugh hysterically." << endl;
+						cout << "He snatches the orb from your hand and jumps out of the window!" << endl;
+						happyLeprechaun = true;
 						done = true;
 					}
 					else
 					{
-						cout << "The leprechan looks at your hand, then to the ground. \nHe stands for a moment, the retreats to back behind the chair." << endl;
+						cout << "The Leprechaun looks at your hand, then to the ground. \nHe stands for a moment, then retreats to behind the chair." << endl;
 					}
 					break;
 				}
+				//cin.ignore(256, '\n');
 				break;  //break out of menu case 9
 			}
 			default:
 				cout << "Not a valid choice" << endl;
+				cin.ignore(256, '\n');
 				break;
 			}	//end of menu loop
 		}
@@ -697,28 +712,24 @@ int main()
 	if (hydration < 1) cout << "You died from dehydration." << endl;
 	if (turnsRemaining < 1) cout << "You have died from exhaustion." << endl;
 	if (death) cout << endl << "Sorry you didn't make it. Try again ;-)" << endl;
-	if (happyLeprechan) cout << endl << "You are a hero! \nYou made him happy! \nYou have saved the world!" << endl;
-	cout << "\n\n\n";
-	//cout << "Press enter to exit..." << endl;
-	//cin.clear();
-	//cin.ignore(256, '\n');
-	//cin.get();
+	if (happyLeprechaun) cout << endl << "You are a hero! \nYou made him happy! \nYou have saved the world! \n******* Well Done! *******" << endl;
+	cout << "\n\n";
 	return 0;
 }
 
 //displays user options to console
 void displayMenu()
 {
-	cout << endl;
+	//cout << endl;
 	cout << "Choose option and press enter" << endl;
 	cout << "*****************************" << endl;
 	cout << "  1) Look around" << endl;
 	cout << "  2) Move" << endl;
 	cout << "  3) Use the item you are holding" << endl;
 	cout << "  4) Pick up an item" << endl;
-	cout << "  5) Drop an item" << endl;
+	cout << "  5) Drop the item you are holding" << endl;
 	cout << "  6) List backpack contents & what you are holding" << endl;
-	cout << "  7) Place an item in your backpack" << endl;
+	cout << "  7) Place the item you are holding in your backpack" << endl;
 	cout << "  8) Get an item from your backpack" << endl;
 	cout << "  9) Touch an orb" << endl;
 	cout << "  0) Exit" << endl;
